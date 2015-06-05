@@ -5,9 +5,19 @@ namespace ifElse {
 		public int x;
 		public int y;
 
+		public Point northPoint { get { return new Point (x, y - 1); } }
+		public Point eastPoint { get { return new Point (x + 1, y); } }
+		public Point southPoint { get { return new Point (x, y + 1); } }
+		public Point westPoint { get { return new Point (x - 1, y); } }
+
 		public Point (int X, int Y) {
 			x = X;
 			y = Y;
+		}
+
+		public override string ToString ()
+		{
+			return string.Format ("({0}, {1})", x, y);
 		}
 
 		public int distanceFrom (Point pt) {
@@ -17,18 +27,6 @@ namespace ifElse {
 		}
 		public Point midPointBetween (Point min, Point max) {
 			return new Point (max.x - min.x, max.y - min.y);
-		}
-
-		public Point closestNeighbour () {
-			int closestDistance = 100000;
-			Point closestPoint = this;
-			foreach (Point pt in World.elevationMap.Keys) {
-				if (distanceFrom (pt) < closestDistance && pt != this) {
-					closestDistance = distanceFrom (pt);
-					closestPoint = pt;
-				}
-			}
-			return closestPoint;
 		}
 	}
 }
