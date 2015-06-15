@@ -7,10 +7,14 @@ namespace ifElse {
 		public static int size = 5;
 		public static Random random;
 		public static Dictionary<Point, int> elevationMap = new Dictionary<Point, int> ();
+		public static List<Point> waterSprings = new List<Point> ();
 
 		//Generates a random world from the given seed
 		public static void generate () {
 			random = new Random (seed);
+			for (int i = 0; i < random.Next (4, 9); i++) {
+				waterSprings.Add (new Point (random.Next (-size, size+1), random.Next (-size, size+1)));
+			}
 			elevationMap.Add (new Point (0, 0), random.Next (-5, 6));
 			for (int y = -size; y < size+1; y++) {
 				for (int x = -size; x < size+1; x++) {
@@ -41,8 +45,12 @@ namespace ifElse {
 			}
 			return elevationMap [pt];
 		}
+
 		public static bool waterIsAt (Point pt) {
-			return false;
+			if (waterSprings.Contains (pt))
+				return true;
+			else
+				return false;
 		}
 	}
 }
