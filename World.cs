@@ -4,15 +4,17 @@ using System.Collections.Generic;
 namespace ifElse {
 	public class World {
 		public static int seed = 1234567890;
+		public static int size = 5;
 		public static Random random;
 		public static Dictionary<Point, int> elevationMap = new Dictionary<Point, int> ();
 
 		public static void generate () {
 			random = new Random (seed);
 			elevationMap.Add (new Point (0, 0), random.Next (-5, 6));
-			for (int y = -5; y < 6; y++) {
-				for (int x = -5; x < 6; x++) {
+			for (int y = -size; y < size+1; y++) {
+				for (int x = -size; x < size+1; x++) {
 					int localElevation = getElevationAt (new Point (x, y));
+
 					if (localElevation < 0)
 						Console.Write ("{0} ", localElevation);
 					else
