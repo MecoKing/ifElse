@@ -56,6 +56,9 @@ namespace ifElse {
 		}
 
 		public static void printElevationMapAboutPoint (Point origin) {
+		public static void printInfoMapAboutPoint (Point origin) {
+			Console.ForegroundColor = ConsoleColor.Gray;
+			Console.WriteLine ("Elevation             | Temperature");
 			for (int y = origin.y-size; y < origin.y+size + 1; y++) {
 				for (int x = origin.x-size; x < origin.x+size + 1; x++) {
 					Point localPoint = new Point (x, y);
@@ -76,6 +79,29 @@ namespace ifElse {
 					} else
 						Console.Write ("  ");
 				}
+
+				Console.ForegroundColor = ConsoleColor.Gray;
+				Console.Write ("| ");
+
+				for (int x = origin.x-size; x < origin.x+size + 1; x++) {
+					Point localPoint = new Point (x, y);
+					if (tileExistsAtPoint (localPoint)) {
+						Tile localTile = tileAtPoint (localPoint);
+						if (localTile.temperature () < -5)
+							Console.ForegroundColor = ConsoleColor.Cyan;
+						else if (localTile.temperature () < 5)
+							Console.ForegroundColor = ConsoleColor.Blue;
+						else if (localTile.temperature () < 15)
+							Console.ForegroundColor = ConsoleColor.Green;
+						else if (localTile.temperature () < 25)
+							Console.ForegroundColor = ConsoleColor.Yellow;
+						else
+							Console.ForegroundColor = ConsoleColor.Red;
+						Console.Write ("{0} ", localTile.symbol ());
+					} else
+						Console.Write ("   ");
+				}
+
 				Console.WriteLine ();
 			}
 		}
