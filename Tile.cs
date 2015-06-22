@@ -67,6 +67,21 @@ namespace ifElse {
 			}
 			return (elevation * -10) + neighbourTemperatures / neighbourCount;
 		}
+
+		public char symbol () {
+			if (isWaterSpring)
+				return (temperature () < 0) ? '*' : 'o';
+			else if (hasWater ())
+				return '~';
+			else if (elevation < -1)
+				return '+';
+			else if (elevation < 0)
+				return ',';
+			else if (elevation > 2)
+				return '∆';
+			else
+				return '#';
+		}
 	}
 }
 

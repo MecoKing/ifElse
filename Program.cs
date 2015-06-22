@@ -7,7 +7,7 @@ namespace ifElse {
 
 			World.printInfoMapAboutPoint (new Point (0, 0));
 			Console.WriteLine ();
-			World.printWaterMapAboutPoint (new Point (0, 0));
+			World.printGameMapAboutPoint (new Point (0, 0));
 			Console.WriteLine ();
 		}
 	}

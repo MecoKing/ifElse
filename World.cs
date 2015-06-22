@@ -12,7 +12,8 @@ namespace ifElse {
 		//Generates a random world from the given seed
 		public static void generate () {
 			//create a new random object with the world's seed
-			random = new Random (seed);
+//			random = new Random (seed);
+			random = new Random ();
 			//Add a starting elevation point at (0, 0) with a randomized height
 			map.Add (new Tile (new Point (0, 0), random.Next (-5, 6)));
 			//for all coordinates in the giving size
@@ -73,6 +74,9 @@ namespace ifElse {
 				return false;
 		}
 
+		//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+		//NOTE: Need a better way of printing an ASCII based map that displays height and terrainType...
+		//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 		public static void printInfoMapAboutPoint (Point origin) {
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.WriteLine ("Elevation             | Temperature");
@@ -92,7 +96,7 @@ namespace ifElse {
 						else
 							Console.ForegroundColor = ConsoleColor.Red;
 
-						Console.Write ("# ");
+						Console.Write ("{0} ", Math.Abs (localElevation));
 					} else
 						Console.Write ("  ");
 				}
@@ -122,24 +126,37 @@ namespace ifElse {
 				Console.WriteLine ();
 			}
 		}
-		public static void printWaterMapAboutPoint (Point origin) {
+		public static void printGameMapAboutPoint (Point origin) {
+			Console.ForegroundColor = ConsoleColor.Gray;
+			Console.WriteLine ("Game Map");
 			for (int y = origin.y-size; y < origin.y+size + 1; y++) {
 				for (int x = origin.x-size; x < origin.x+size + 1; x++) {
 					Point localPoint = new Point (x, y);
-					if (tileExistsAtPoint (localPoint)) {
+					if (humanExistsAtPoint (localPoint)) {
+						Console.ForegroundColor = (humanAtPoint (localPoint).gender == "Male") ? ConsoleColor.Cyan : ConsoleColor.Magenta;
+						Console.Write ("X ");
+					}
+					else if (tileExistsAtPoint (localPoint)) {
 						Tile localTile = tileAtPoint (localPoint);
-						if (localTile.isWaterSpring) {
-							Console.ForegroundColor = ConsoleColor.Blue;
-							Console.Write ("o ");
-						} else if (localTile.hasWater ()) {
-							Console.ForegroundColor = ConsoleColor.Blue;
-							Console.Write ("~ ");
-						} else {
+						if (localTile.symbol () == '+')
+							Console.ForegroundColor = ConsoleColor.Gray;
+						else if (localTile.symbol () == ',')
+							Console.ForegroundColor = ConsoleColor.Yellow;
+						else if (localTile.symbol () == '#')
 							Console.ForegroundColor = ConsoleColor.Green;
-							Console.Write ("# ");
-						}
+						else if (localTile.symbol () == '~')
+							Console.ForegroundColor = (localTile.temperature () < 0) ? ConsoleColor.Cyan : ConsoleColor.Blue;
+						else if (localTile.symbol () == 'o')
+							Console.ForegroundColor = ConsoleColor.Blue;
+						else if (localTile.symbol () == '*')
+							Console.ForegroundColor = ConsoleColor.Cyan;
+						else if (localTile.symbol () == '∆')
+							Console.ForegroundColor = ConsoleColor.White;
+						else
+							Console.ForegroundColor = ConsoleColor.Gray;
+						Console.Write ("{0} ", localTile.symbol ());
 					} else
-						Console.Write ("  ");
+						Console.Write ("   ");
 				}
 				Console.WriteLine ();
 			}
