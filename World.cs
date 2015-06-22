@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace ifElse {
 	public class World {
-		public static int seed = 1234567890;
+		public static int seed = 53113;
 		public static int size = 5;
 		public static Random random;
 		public static List<Tile> map = new List<Tile> ();
+		public static List<Human> population = new List<Human> ();
 
 		//Generates a random world from the given seed
 		public static void generate () {
@@ -20,6 +21,9 @@ namespace ifElse {
 					Point localPoint = new Point (x, y);
 					getElevationAt (localPoint);
 				}
+			}
+			for (int personCount = 0; personCount < random.Next (9); personCount++) {
+				population.Add (new Human ());
 			}
 		}
 
@@ -55,7 +59,20 @@ namespace ifElse {
 				return false;
 		}
 
-		public static void printElevationMapAboutPoint (Point origin) {
+		public static Human humanAtPoint (Point pt) {
+			foreach (Human hmn in population) {
+				if (hmn.position.x == pt.x && hmn.position.y == pt.y)
+					return hmn;
+			}
+			return null;
+		}
+		public static bool humanExistsAtPoint (Point pt) {
+			if (humanAtPoint (pt) != null)
+				return true;
+			else
+				return false;
+		}
+
 		public static void printInfoMapAboutPoint (Point origin) {
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.WriteLine ("Elevation             | Temperature");
